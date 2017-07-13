@@ -40,7 +40,7 @@ def check_network():
     
     return True
 
-def get_ip_address():
+def get_ip_address(ifname='wlan0'):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     ifname='wlan0'
     ip_address = socket.inet_ntoa(fcntl.ioctl(
@@ -51,13 +51,17 @@ def get_ip_address():
     return ip_address
 
 if __name__ == "__main__":
-    check_network()
-    ip = get_ip_address()
-    print(ip)
+    # config 
+    ifname = 'wlan0'  # 'eth0' or 'wlan0'  
     smtp_server = "smtp.example.com"
     username = "username"
     password = "password"
     sender = "username@example.com"
     receiver = ["username@example.com"]
     subject = "IP Address Of My Raspberry Pi"
+    
+    
+    check_network()
+    ip = get_ip_address(ifname)
+    print(ip)
     send_email(smtp_server, username, passwword, sender, receiver, subject, ip)
